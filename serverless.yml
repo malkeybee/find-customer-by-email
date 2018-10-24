@@ -21,33 +21,9 @@ provider:
   name: aws
   runtime: nodejs8.10
 
-plugins:
-  - serverless-offline
-
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
-
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
-
-# you can define service wide environment variables here
-environment:
-  MOLTIN_CLIENT_ID: "YOUR MOLTIN CLIENT ID HERE"
-  MOLTIN_CLIENT_SECRET: "YOUR MOLTIN CLIENT SECRET HERE"
+  environment:
+    MOLTIN_CLIENT_ID: "YOUR MOLTIN CLIENT ID HERE"
+    MOLTIN_CLIENT_SECRET: "YOUR MOLTIN CLIENT SECRET HERE"
 
 # you can add packaging information here
 #package:
@@ -58,13 +34,18 @@ environment:
 #    - exclude-me.js
 #    - exclude-me-dir/**
 
+plugins:
+  - serverless-offline
+
+
 functions:
   find:
-    handler: handler.finc
+    handler: handler.find
     events:
       - http:
           path: /find
           method: post
+          cors: true
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
 #      - sns: greeter-topic
